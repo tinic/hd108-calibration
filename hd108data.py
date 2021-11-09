@@ -53,8 +53,9 @@ def main():
     spi.bits_per_word = 8
     spi.max_speed_hz = 4000000
 
-    sensor.gain = 0x20
-    sensor.integration_time = 0x0
+    sensor.gain = 0x00
+
+    settleToBlack()
 
     rgain = 31
     ggain = 31
@@ -62,17 +63,51 @@ def main():
 
     f = open("hd108data_g{}i{}rg{}gg{}bg{}.txt".format(sensor.gain>>4,sensor.integration_time,rgain,ggain,bgain), "w")
 
-    settleToBlack()
+    if False:
+        sensor.gain = 0x20
+        sensor.integration_time = 0x0
 
-    # first section with highest gain
-    for i in range(1,1024,1):
-        rlux = getLux(i, 0, 0, rgain, ggain, bgain, 0.2)
-        glux = getLux(0, i, 0, rgain, ggain, bgain, 0.2)
-        blux = getLux(0, 0, i, rgain, ggain, bgain, 0.2)
-        print("i:{} r:{:0.5f} g:{:0.5f} b{:0.5f}".format(i, rlux, glux, blux))
-        f.write("{},{:0.5f},{:0.5f},{:0.5f}\n".format(i, rlux, glux, blux))
-        f.flush()
-    
+        settleToBlack()
+
+        # first section with highest gain
+        for i in range(1,1024,64):
+            rlux = getLux(i, 0, 0, rgain, ggain, bgain, 0.2)
+            glux = getLux(0, i, 0, rgain, ggain, bgain, 0.2)
+            blux = getLux(0, 0, i, rgain, ggain, bgain, 0.2)
+            print("i:{} r:{:0.5f} g:{:0.5f} b{:0.5f}".format(i, rlux, glux, blux))
+            f.write("{},{:0.5f},{:0.5f},{:0.5f}\n".format(i, rlux, glux, blux))
+            f.flush()
+
+    if False:
+        sensor.gain = 0x10
+        sensor.integration_time = 0x0
+
+        settleToBlack()
+
+        # second section with medium gain
+        for i in range(3,32768,64):
+            rlux = getLux(i, 0, 0, rgain, ggain, bgain, 0.2)
+            glux = getLux(0, i, 0, rgain, ggain, bgain, 0.2)
+            blux = getLux(0, 0, i, rgain, ggain, bgain, 0.2)
+            print("i:{} r:{:0.5f} g:{:0.5f} b{:0.5f}".format(i, rlux, glux, blux))
+            f.write("{},{:0.5f},{:0.5f},{:0.5f}\n".format(i, rlux, glux, blux))
+            f.flush()
+
+    if True:
+        sensor.gain = 0x00
+        sensor.integration_time = 0x0
+
+        settleToBlack()
+
+        # second section with low gain
+        for i in range(255,65536,256):
+            rlux = getLux(i, 0, 0, rgain, ggain, bgain, 0.2)
+            glux = getLux(0, i, 0, rgain, ggain, bgain, 0.2)
+            blux = getLux(0, 0, i, rgain, ggain, bgain, 0.2)
+            print("i:{} r:{:0.5f} g:{:0.5f} b{:0.5f}".format(i, rlux, glux, blux))
+            f.write("{},{:0.5f},{:0.5f},{:0.5f}\n".format(i, rlux, glux, blux))
+            f.flush()
+
     f.close()
 
 if __name__ == '__main__':
