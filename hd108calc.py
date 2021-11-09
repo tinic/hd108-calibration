@@ -7,6 +7,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 import math
 
+# best match so far
+gconst = 0.760
+bconst = 0.550
+
 ra = []
 ga = []
 ba = []
@@ -19,23 +23,39 @@ ri = []
 gi = []
 bi = []
 
+'''
+-a * exp(-b * 1) + a = 1
+
+(1 - a) / - a = e ^ (-b)
+
+-log((1-a)/(-a)) = b
+
+a * (-exp(-b) + 1) = 1
+
+1 / (-exp(-b) + 1)
+'''
+
 def rfunc(x):
     return x
 
 def rifunc(x):
     return x
 
-def gfunc(x):
-    return -1.830981360906352 * np.exp(-0.790 * x) + 1.830981360906352
+def gfunc(x, b):
+    a = 1.0 / (-np.exp(-b) + 1.0)
+    return -a * np.exp(-b * x) + a
 
-def gifunc(x):
-    return np.log((x - 1.830981360906352) / -1.830981360906352) / -0.790
+def gifunc(x, b):
+    a = 1.0 / (-np.exp(-b) + 1.0)
+    return np.log((x - a) / -a) / -b
 
-def bfunc(x):
-    return -2.272202427870712 * np.exp(-0.580 * x) + 2.272202427870712
+def bfunc(x, b):
+    a = 1.0 / (-np.exp(-b) + 1.0)
+    return -a * np.exp(-b * x) + a
 
-def bifunc(x):
-    return np.log((x - 2.272202427870712) / -2.272202427870712) / -0.580
+def bifunc(x, b):
+    a = 1.0 / (-np.exp(-b) + 1.0)
+    return np.log((x - a) / -a) / -b
 
 def main():
 
@@ -61,19 +81,19 @@ def main():
         rq.append(rfunc(i))
 
     for i in np.arange(0, 1, 1/256):
-        gq.append(gfunc(i))
+        gq.append(gfunc(i, gconst))
 
     for i in np.arange(0, 1, 1/256):
-        bq.append(bfunc(i))
+        bq.append(bfunc(i, bconst))
 
     for i in np.arange(0, 1, 1/256):
         ri.append(rifunc(i))
 
     for i in np.arange(0, 1, 1/256):
-        gi.append(gifunc(i))
+        gi.append(gifunc(i, gconst))
 
     for i in np.arange(0, 1, 1/256):
-        bi.append(bifunc(i))
+        bi.append(bifunc(i, bconst))
 
     plt.plot(ra, color='salmon', linestyle='dashed')
     plt.plot(ga, color='limegreen', linestyle='dashed')
