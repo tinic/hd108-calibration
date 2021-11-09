@@ -15,14 +15,27 @@ rq = []
 gq = []
 bq = []
 
+ri = []
+gi = []
+bi = []
+
 def rfunc(x):
+    return x
+
+def rifunc(x):
     return x
 
 def gfunc(x):
     return -1.830981360906352 * np.exp(-0.790 * x) + 1.830981360906352
 
+def gifunc(x):
+    return np.log((x - 1.830981360906352) / -1.830981360906352) / -0.790
+
 def bfunc(x):
     return -2.272202427870712 * np.exp(-0.580 * x) + 2.272202427870712
+
+def bifunc(x):
+    return np.log((x - 2.272202427870712) / -2.272202427870712) / -0.580
 
 def main():
 
@@ -53,6 +66,14 @@ def main():
     for i in np.arange(0, 1, 1/256):
         bq.append(bfunc(i))
 
+    for i in np.arange(0, 1, 1/256):
+        ri.append(rifunc(i))
+
+    for i in np.arange(0, 1, 1/256):
+        gi.append(gifunc(i))
+
+    for i in np.arange(0, 1, 1/256):
+        bi.append(bifunc(i))
 
     plt.plot(ra, color='salmon', linestyle='dashed')
     plt.plot(ga, color='limegreen', linestyle='dashed')
@@ -61,6 +82,10 @@ def main():
     plt.plot(rq, color='darkred')
     plt.plot(gq, color='forestgreen')
     plt.plot(bq, color='darkblue')
+
+    plt.plot(ri, color='darkred')
+    plt.plot(gi, color='forestgreen')
+    plt.plot(bi, color='darkblue')
 
     plt.show()
 
