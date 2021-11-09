@@ -4,3 +4,4 @@ The batch of HD108-5050 LEDs I have does not have a linear response on green and
 
 ![](hd108response.png)
 
+<img src="hd108response.png" width="200" />
