@@ -95,17 +95,17 @@ def main():
     for i in np.arange(0, 1, 1/256):
         bi.append(bifunc(i, bconst))
 
-    plt.plot(ra, color='salmon', linestyle='dashed')
-    plt.plot(ga, color='limegreen', linestyle='dashed')
-    plt.plot(ba, color='royalblue', linestyle='dashed')
+    plt.plot(ra, color='salmon')
+    plt.plot(ga, color='limegreen')
+    plt.plot(ba, color='royalblue')
 
-    plt.plot(rq, color='darkred')
-    plt.plot(gq, color='forestgreen')
-    plt.plot(bq, color='darkblue')
+#    plt.plot(rq, color='darkred')
+#    plt.plot(gq, color='forestgreen')
+#    plt.plot(bq, color='darkblue')
 
-    plt.plot(ri, color='darkred')
-    plt.plot(gi, color='forestgreen')
-    plt.plot(bi, color='darkblue')
+#    plt.plot(ri, color='darkred')
+#    plt.plot(gi, color='forestgreen')
+#    plt.plot(bi, color='darkblue')
 
     plt.show()
 
