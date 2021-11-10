@@ -7,3 +7,7 @@ The batch of HD108-5050 LEDs I have does not have a linear response on green and
 With some manual curve fitting we can figure out a couple of exponential function constants which map somewhat OK:
 
 <img src="hd108calc.png" width="512" />
+
+Measured graph with correction applied:
+
+<img src="hd108corrected.png" width="512" />
