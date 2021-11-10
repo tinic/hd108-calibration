@@ -6,6 +6,34 @@ import board
 import busio
 import spidev
 import adafruit_tsl2591
+import math
+
+# best match so far
+rconst = 1.000
+gconst = 0.760
+bconst = 0.550
+
+def rfunc(x, b):
+    return x * b
+
+def rifunc(x, b):
+    return x / b
+
+def gfunc(x, b):
+    a = 1.0 / (-math.exp(-b) + 1.0)
+    return -a * math.exp(-b * x) + a
+
+def gifunc(x, b):
+    a = 1.0 / (-math.exp(-b) + 1.0)
+    return math.log((x - a) / -a) / -b
+
+def bfunc(x, b):
+    a = 1.0 / (-math.exp(-b) + 1.0)
+    return -a * math.exp(-b * x) + a
+
+def bifunc(x, b):
+    a = 1.0 / (-math.exp(-b) + 1.0)
+    return math.log((x - a) / -a) / -b
 
 spi = spidev.SpiDev()
 i2c = busio.I2C(board.SCL, board.SDA)
@@ -104,6 +132,24 @@ def main():
             rlux = getLux(i, 0, 0, rgain, ggain, bgain, 0.2)
             glux = getLux(0, i, 0, rgain, ggain, bgain, 0.2)
             blux = getLux(0, 0, i, rgain, ggain, bgain, 0.2)
+            print("i:{} r:{:0.5f} g:{:0.5f} b{:0.5f}".format(i, rlux, glux, blux))
+            f.write("{},{:0.5f},{:0.5f},{:0.5f}\n".format(i, rlux, glux, blux))
+            f.flush()
+
+    if False:
+        sensor.gain = 0x00
+        sensor.integration_time = 0x0
+
+        settleToBlack()
+
+        # second section with low gain
+        for i in range(255,65536,256):
+            r = int(rifunc((float(i) / 65535.0), rconst) * 65535.0)
+            g = int(gifunc((float(i) / 65535.0), gconst) * 65535.0)
+            b = int(bifunc((float(i) / 65535.0), bconst) * 65535.0)
+            rlux = getLux(r, 0, 0, rgain, ggain, bgain, 0.2)
+            glux = getLux(0, g, 0, rgain, ggain, bgain, 0.2)
+            blux = getLux(0, 0, b, rgain, ggain, bgain, 0.2)
             print("i:{} r:{:0.5f} g:{:0.5f} b{:0.5f}".format(i, rlux, glux, blux))
             f.write("{},{:0.5f},{:0.5f},{:0.5f}\n".format(i, rlux, glux, blux))
             f.flush()
