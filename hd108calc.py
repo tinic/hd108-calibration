@@ -59,7 +59,7 @@ def bifunc(x, b):
 
 def main():
 
-    with open('hd108data_g0i0rg31gg31bg31_255_65535.txt', newline='\n') as csvfile:
+    with open('hd108data_g0i0rg31gg31bg31.txt', newline='\n') as csvfile:
         csvreader = csv.reader(csvfile, delimiter=',', quotechar='|')
         for row in csvreader:
             ra.append(float(row[1]))
