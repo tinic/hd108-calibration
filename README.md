@@ -10,6 +10,6 @@ With some manual curve fitting we can figure out a couple of exponential functio
 
 <img src="hd108calc.png" width="512" />
 
-Measured graph with correction applied:
+Measured graph with correction applied, the red channel could do with some improvement still:
 
 <img src="hd108corrected.png" width="512" />
