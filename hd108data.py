@@ -91,14 +91,14 @@ def main():
 
     f = open("hd108data_g{}i{}rg{}gg{}bg{}.txt".format(sensor.gain>>4,sensor.integration_time,rgain,ggain,bgain), "w")
 
-    if False:
+    if True:
         sensor.gain = 0x20
         sensor.integration_time = 0x0
 
         settleToBlack()
 
         # first section with highest gain
-        for i in range(1,1024,64):
+        for i in range(1,1024,1):
             rlux = getLux(i, 0, 0, rgain, ggain, bgain, 0.2)
             glux = getLux(0, i, 0, rgain, ggain, bgain, 0.2)
             blux = getLux(0, 0, i, rgain, ggain, bgain, 0.2)
@@ -106,14 +106,14 @@ def main():
             f.write("{},{:0.5f},{:0.5f},{:0.5f}\n".format(i, rlux, glux, blux))
             f.flush()
 
-    if False:
+    if True:
         sensor.gain = 0x10
         sensor.integration_time = 0x0
 
         settleToBlack()
 
         # second section with medium gain
-        for i in range(3,32768,64):
+        for i in range(1024,32768,1):
             rlux = getLux(i, 0, 0, rgain, ggain, bgain, 0.2)
             glux = getLux(0, i, 0, rgain, ggain, bgain, 0.2)
             blux = getLux(0, 0, i, rgain, ggain, bgain, 0.2)
@@ -128,7 +128,7 @@ def main():
         settleToBlack()
 
         # second section with low gain
-        for i in range(255,65536,256):
+        for i in range(32768,65536,1):
             rlux = getLux(i, 0, 0, rgain, ggain, bgain, 0.2)
             glux = getLux(0, i, 0, rgain, ggain, bgain, 0.2)
             blux = getLux(0, 0, i, rgain, ggain, bgain, 0.2)
